@@ -9,11 +9,11 @@ from ...serializers import TagSerializer
 class TagId(APIView):
 
     def get(self, request, id):
-        data = Tag.objects.get(id=id)
+        tag = Tag.objects.get(id=id)
 
         try:
-            if data.host == request.user:
-                serdata = TagSerializer(data)
-                return JsonResponse(serdata.data)
+            if tag.host == request.user:
+                queryset = TagSerializer(tag)
+                return JsonResponse(queryset.data)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)

@@ -15,7 +15,7 @@ class ToDoByTagId(APIView):
             if tag.host == request.user:
                 titleToDo = tag.notes
                 todo = ToDo.objects.filter(title=titleToDo)
-                serdata = ToDoSerializer(todo, many=True)
-                return JsonResponse(serdata.data, safe=False)
+                queryset = ToDoSerializer(todo, many=True)
+                return JsonResponse(queryset.data, safe=False)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)

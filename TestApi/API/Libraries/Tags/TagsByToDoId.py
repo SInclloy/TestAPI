@@ -9,12 +9,12 @@ from ...serializers import TagSerializer
 class TagByToDoId(APIView):
 
     def get(self, request, id):
-        data = ToDo.objects.get(id=id)
+        todo = ToDo.objects.get(id=id)
 
         try:
-            if data.host == request.user:
-                tag = Tag.objects.filter(notes=data)
-                serdata = TagSerializer(tag, many=True)
-                return JsonResponse(serdata.data, safe=False)
+            if todo.host == request.user:
+                tag = Tag.objects.filter(notes=todo)
+                queryset = TagSerializer(tag, many=True)
+                return JsonResponse(queryset.data, safe=False)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)

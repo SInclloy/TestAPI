@@ -9,13 +9,13 @@ from ...serializers import ToDoSerializer
 class AllToDo(APIView):
 
     def get(self, request):
-        allToDo = ToDo.objects.filter(host=request.user)
-        serializer_class = ToDoSerializer(allToDo, many=True)
-        return JsonResponse(serializer_class.data, safe=False)
+        todo = ToDo.objects.filter(host=request.user)
+        queryset = ToDoSerializer(todo, many=True)
+        return JsonResponse(queryset.data, safe=False)
 
     def post(self, request):
-        serializer = ToDoSerializer(data=request.data)
+        queryset = ToDoSerializer(data=request.data)
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if queryset.is_valid():
+            queryset.save()
+            return Response(queryset.data, status=status.HTTP_201_CREATED)
