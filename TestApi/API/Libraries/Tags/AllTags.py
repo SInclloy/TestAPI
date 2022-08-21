@@ -9,9 +9,14 @@ from ...serializers import TagSerializer
 class AllTags(APIView):
 
     def get(self, request):
-        tags = Tag.objects.filter(host=request.user).values()
-        queryset = TagSerializer(tags,many=True)
-        return JsonResponse(queryset.data, safe=True)
+
+        try:tags = Tag.objects.filter(host=request.user)
+        except: tags=None
+
+        if tags != None:
+            queryset = TagSerializer(tags,many=True)
+            return JsonResponse(queryset.data, safe=False)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request):
         queryset = TagSerializer(data=request.data)

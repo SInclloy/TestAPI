@@ -9,11 +9,11 @@ from ...serializers import ToDoSerializer
 class ToDoId(APIView):
 
     def get(self, request, id):
-        todo = ToDo.objects.get(id=id)
 
-        try:
-            if todo.host == request.user:
-                queryset = ToDoSerializer(todo)
-                return JsonResponse(queryset.data)
-        except:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        try:todo = ToDo.objects.get(id=id)
+        except: todo=None
+
+        if todo!=None and todo.host == request.user:
+            queryset = ToDoSerializer(todo)
+            return JsonResponse(queryset.data)
+        return Response(status=status.HTTP_404_NOT_FOUND)

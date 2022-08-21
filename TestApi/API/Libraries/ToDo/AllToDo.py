@@ -9,9 +9,14 @@ from ...serializers import ToDoSerializer
 class AllToDo(APIView):
 
     def get(self, request):
-        todo = ToDo.objects.filter(host=request.user)
-        queryset = ToDoSerializer(todo, many=True)
-        return JsonResponse(queryset.data, safe=False)
+
+        try:todo = ToDo.objects.filter(host=request.user)
+        except:todo =None
+
+        if todo!=None:
+            queryset = ToDoSerializer(todo, many=True)
+            return JsonResponse(queryset.data, safe=False)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request):
         queryset = ToDoSerializer(data=request.data)
