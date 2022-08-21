@@ -8,8 +8,8 @@ from ...serializers import ToDoSerializer
 
 class ToDoByTagId(APIView):
 
-    def get(self, request, pk_id):
-        tag = Tag.objects.get(id=pk_id)
+    def get(self, request, id):
+        tag = Tag.objects.get(id=id)
 
         try:
             if tag.host == request.user:
