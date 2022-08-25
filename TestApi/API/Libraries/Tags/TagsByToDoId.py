@@ -18,7 +18,7 @@ class TagByToDoId(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         tag = Tag.objects.filter(notes=todo)
 
-        if tag==None:
+        if not tag:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         queryset = TagSerializer(tag, many=True)
