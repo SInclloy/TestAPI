@@ -8,20 +8,18 @@ from ...serializers import ToDoSerializer
 
 class ToDoByTagId(APIView):
 
-    __goto404 = Response(status=status.HTTP_404_NOT_FOUND)
-
     def get(self, request, id):
 
         try:tag = Tag.objects.get(id=id)
         except:
-            return self.__goto404
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         if tag.host != request.user:
-            return self.__goto404
+            return Response(status=status.HTTP_404_NOT_FOUND)
         title = tag.notes
 
         if title == None:
-            return self.__goto404
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         todo = ToDo.objects.filter(title=title)
 
